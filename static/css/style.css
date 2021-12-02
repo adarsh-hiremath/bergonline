@@ -4,7 +4,7 @@ h1 {
     color: #DC143C;
     text-align: center;
     padding: 10px;
-    font: "Palatino", "URW Palladio L", serif;
+    font-family: "Garamond", garamond, serif;
 }
 
 h3 {
@@ -15,4 +15,65 @@ h3 {
 
 body {
     background-image: url('annenberg.jpg');
+}
+
+input[type="text"], input[type="password"] {
+    line-height: 1.8;
+    width: 25%;
+    padding: 10px;
+}
+
+input[type="text"]:hover, input[type="password"]:hover {
+    background-color: #f5f5f5;
+    transition: color 2s ease-in-out, background-color 0.15s ease-in-out;
+}
+
+.mb-3 {
+    display: grid;
+    place-items: center;
+}
+
+input[type="text"]::placeholder, input[type="password"]::placeholder {
+    text-align: center;
+}
+
+.button {
+    background-color: crimson;
+    color: white;
+    padding: 7.5px 16px;
+    text-align: center;
+    font-size: 12px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+.register-nav-link {
+    background-color: crimson;
+    color: white;
+    padding: 7.5px 16px;
+    text-decoration: none;
+}
+
+p {
+    background-color: red;
+    display: inline-block;
+    padding: 10px 21px;
+    text-align: center;
+}
+
+/* Size for brand */
+nav .navbar-brand
+{
+    font-size: xx-large;
+}
+
+/* Colors for brand */
+nav .navbar-brand .crimson
+{
+    color: crimson;
+}
+
+nav .navbar-brand .crimson
+{
+    color: black;
 }

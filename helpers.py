@@ -1,7 +1,7 @@
 import os
 import requests
 import urllib.parse
-
+from bs4 import BeautifulSoup
 from flask import redirect, render_template, request, session
 from functools import wraps
 
@@ -32,3 +32,35 @@ def apology(message, code=400):
             s = s.replace(old, new)
         return s
     return render_template("apology.html", top=code, bottom=escape(message)), code
+
+def parse():
+    URL = "http://www.foodpro.huds.harvard.edu/foodpro/menu_items.asp?type=30&meal=1"
+    page = requests.get(URL)
+    soup = BeautifulSoup(page.content, "html.parser")
+    menu_items = soup.find_all("td", class_ = "menu_item")
+
+    new_dict = {}
+
+    for food_item in menu_items:
+        for each in food_item.findAll("a"):
+            href = each.get('href')
+            new_dict[(each.string.strip(), href)] = None
+
+    for (menu_item_name, menu_item_link), value in new_dict.items(): 
+        another_page = requests.get(menu_item_link)
+        soup2 = BeautifulSoup(another_page.content, "html.parser")
+        # facts = soup2.find_all("td", class_ = "facts")
+        calories = soup2.find("b", text="Calories:")
+        carbs = soup2.find("b", text = "Total Carbs:")
+        fat = soup2.find("b", text = "Total Fat:")
+        protein = soup2.find("b", text = "Protein:")
+
+        try:
+            calories = calories.next_sibling.strip()
+            carbs = carbs.next_sibling.strip()
+            fat = fat.next_sibling.strip()
+            protein = protein.next_sibling.strip()
+        except:
+            continue
+
+        new_dict[(menu_item_name, menu_item_link)] = (calories, carbs, fat, protein)

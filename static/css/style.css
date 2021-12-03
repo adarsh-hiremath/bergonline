@@ -47,12 +47,13 @@ input[type="text"]::placeholder, input[type="password"]::placeholder {
     cursor: pointer;
 }
 
+/* 
 .register-nav-link {
     background-color: crimson;
     color: white;
     padding: 7.5px 16px;
     text-decoration: none;
-}
+} */
 
 p {
     background-color: red;
@@ -76,4 +77,8 @@ nav .navbar-brand .crimson
 nav .navbar-brand .crimson
 {
     color: black;
+}
+
+table {
+    background-color: white;
 }

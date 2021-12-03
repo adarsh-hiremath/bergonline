@@ -23,9 +23,13 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 @app.route("/")
-@login_required
 def index():
-    return render_template('index.html')
+
+    with conn: 
+        cursor = conn.cursor()
+        data = cursor.execute("SELECT * FROM menu_data")
+    
+    return render_template("index.html", data=data)
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -82,6 +86,26 @@ def register():
     else:
         return render_template("register.html")
 
+@app.route("/nutrition", methods=["GET", "POST"])
+@login_required
+def nutrition():
+
+    if request.method == "POST":
+
+        name = request.form.get("name")
+
+        # Find the cash the user has at the moment
+        with conn: 
+            cursor = conn.cursor()
+            search = cursor.execute("SELECT * FROM menu_data WHERE name = ?", (name,))
+
+        # Redirect user to home page
+        return render_template("index.html", data=search)
+
+    # User reached route via GET (as by clicking a link or via redirect)
+    else:
+        return render_template("nutrition.html")
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     """Log user in"""
@@ -125,3 +149,13 @@ def login():
     # User reached route via GET (as by clicking a link or via redirect)
     else:
         return render_template("login.html")
+
+@app.route("/logout")
+def logout():
+    """Log user out"""
+
+    # Forget any user_id
+    session.clear()
+
+    # Redirect user to login form
+    return redirect("/")

@@ -54,13 +54,17 @@ def parse():
         carbs = soup2.find("b", text = "Total Carbs:")
         fat = soup2.find("b", text = "Total Fat:")
         protein = soup2.find("b", text = "Protein:")
+        serving_size = soup2.find("b", text = "Serving Size:")
 
         try:
-            calories = calories.next_sibling.strip()
-            carbs = carbs.next_sibling.strip()
-            fat = fat.next_sibling.strip()
-            protein = protein.next_sibling.strip()
+            calories = calories.next_sibling.strip(" g")
+            carbs = carbs.next_sibling.strip(" g")
+            fat = fat.next_sibling.strip(" g")
+            protein = protein.next_sibling.strip("g ")
+            serving_size = serving_size.next_sibling.strip()
+            serving_size = serving_size.replace("\xa0",'')
+
         except:
             continue
 
-        new_dict[(menu_item_name, menu_item_link)] = (calories, carbs, fat, protein)
+        new_dict[(menu_item_name, menu_item_link)] = (calories, carbs, fat, protein, serving_size)
